@@ -1,8 +1,16 @@
+// press Enter key and search not working.......................................
+// document.getElementById('input-search')
+// .addEventListener("keypress", function(event){
+//     if(event.key === 'Enter'){
+//         document.getElementById('search-btn').click();
+//     }
+// });
 
 const searchSong = () => {
     const searchInput = document.getElementById('input-search').value;
     const url = ` https://api.lyrics.ovh/suggest/:${searchInput}`
     /** <---load data----> */
+    toggleSpinner();
     fetch(url)
         .then(res => res.json())
         .then(data => displySong(data.data))
@@ -25,6 +33,7 @@ const displySong = songs => {
             </div>
         `;
         songsContainer.appendChild(div);
+        toggleSpinner();
     });
 }
 
@@ -44,11 +53,19 @@ const getLyrics = async (artist , title) => {
     const res = await fetch(url);
     const data = await res.json();
     displyLyrics(data.lyrics);
+
 }
 
 const displyLyrics = lyrics => {
     const lyricsDiv = document.getElementById('lyrics-container');
     lyricsDiv.innerText = lyrics ;
+}
+
+const toggleSpinner = (show) =>{
+    const spinner = document.getElementById('loading-spinner');
+    const songContainer = document.getElementById('song-container');
+    songContainer.classList.toggle('d-none')
+    spinner.classList.toggle('d-none')
 }
 
 // const displyError = error =>{
